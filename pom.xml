@@ -13,14 +13,22 @@
 
     <modules>
         <module>appstate-core</module>
+        <module>business-day-calendar</module>
+        <module>tests-common</module>
+        <module>business-day-calendar-integration-tests</module>
     </modules>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>25</java.version>
         <junit.version>6.0.2</junit.version>
-        <javalite.version>3.3</javalite.version>
+        <jspecify.version>1.0.0</jspecify.version>
         <gatherers4j.version>0.13.0</gatherers4j.version>
+        <javalite.version>3.5-j11</javalite.version>
+        <spring-boot.version>3.4.3</spring-boot.version>
+        <liquibase.version>4.31.1</liquibase.version>
+        <postgresql.version>42.7.5</postgresql.version>
+        <testcontainers.version>1.21.0</testcontainers.version>
     </properties>
 
     <dependencyManagement>
@@ -33,14 +41,53 @@
                 <scope>import</scope>
             </dependency>
             <dependency>
-                <groupId>org.javalite</groupId>
-                <artifactId>javalite-common</artifactId>
-                <version>${javalite.version}</version>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>${spring-boot.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.testcontainers</groupId>
+                <artifactId>testcontainers-bom</artifactId>
+                <version>${testcontainers.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.jspecify</groupId>
+                <artifactId>jspecify</artifactId>
+                <version>${jspecify.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.ginsberg</groupId>
                 <artifactId>gatherers4j</artifactId>
                 <version>${gatherers4j.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.javalite</groupId>
+                <artifactId>javalite-common</artifactId>
+                <version>${javalite.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.liquibase</groupId>
+                <artifactId>liquibase-core</artifactId>
+                <version>${liquibase.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.postgresql</groupId>
+                <artifactId>postgresql</artifactId>
+                <version>${postgresql.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.eirikma</groupId>
+                <artifactId>business-day-calendar</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.eirikma</groupId>
+                <artifactId>tests-common</artifactId>
+                <version>${project.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -59,6 +106,11 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-surefire-plugin</artifactId>
+                    <version>3.5.4</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-failsafe-plugin</artifactId>
                     <version>3.5.4</version>
                 </plugin>
             </plugins>

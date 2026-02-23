@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+            http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="001-create-calendar-date" author="appstate">
+        <createTable tableName="calendar_date">
+            <column name="date" type="DATE">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="year_month" type="CHAR(7)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <createIndex tableName="calendar_date" indexName="idx_calendar_date_year_month">
+            <column name="year_month"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="001-create-calendar-date-tag" author="appstate">
+        <createTable tableName="calendar_date_tag">
+            <column name="date" type="DATE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="tag_set" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="tag" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addPrimaryKey tableName="calendar_date_tag"
+                       columnNames="date, tag_set, tag"
+                       constraintName="pk_calendar_date_tag"/>
+        <addForeignKeyConstraint baseTableName="calendar_date_tag"
+                                 baseColumnNames="date"
+                                 referencedTableName="calendar_date"
+                                 referencedColumnNames="date"
+                                 constraintName="fk_calendar_date_tag_date"/>
+        <createIndex tableName="calendar_date_tag" indexName="idx_calendar_date_tag_tagset_date">
+            <column name="tag_set"/>
+            <column name="date"/>
+        </createIndex>
+    </changeSet>
+
+</databaseChangeLog>
