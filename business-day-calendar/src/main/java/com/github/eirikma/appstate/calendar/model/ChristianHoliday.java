@@ -3,7 +3,7 @@ package com.github.eirikma.appstate.calendar.model;
 /**
  * Classifies dates as Christian holidays, both fixed and Easter-relative.
  */
-public enum ChristianHoliday {
+public enum ChristianHoliday implements TagSet {
 
     NEW_YEARS_DAY,
     MAUNDY_THURSDAY,
@@ -17,4 +17,9 @@ public enum ChristianHoliday {
     SECOND_DAY_OF_CHRISTMAS;
 
     public static final String TAG_SET = "ChristianHoliday";
+
+    @Override
+    public String getTagSetName() {
+        return TAG_SET;
+    }
 }
