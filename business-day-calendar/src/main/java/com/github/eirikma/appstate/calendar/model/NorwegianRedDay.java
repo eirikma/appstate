@@ -3,7 +3,7 @@ package com.github.eirikma.appstate.calendar.model;
 /**
  * Classifies dates as Norwegian public holidays (røde dager).
  */
-public enum NorwegianRedDay {
+public enum NorwegianRedDay implements TagSet {
 
     NEW_YEARS_DAY,
     MAUNDY_THURSDAY,
@@ -19,4 +19,9 @@ public enum NorwegianRedDay {
     BOXING_DAY;
 
     public static final String TAG_SET = "NorwegianRedDay";
+
+    @Override
+    public String getTagSetName() {
+        return TAG_SET;
+    }
 }

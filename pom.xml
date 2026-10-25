@@ -26,6 +26,7 @@
         <gatherers4j.version>0.13.0</gatherers4j.version>
         <javalite.version>3.5-j11</javalite.version>
         <spring-boot.version>3.4.3</spring-boot.version>
+        <logback.version>1.5.18</logback.version>
         <liquibase.version>4.31.1</liquibase.version>
         <postgresql.version>42.7.5</postgresql.version>
         <testcontainers.version>1.21.0</testcontainers.version>
@@ -68,6 +69,16 @@
                 <groupId>org.javalite</groupId>
                 <artifactId>javalite-common</artifactId>
                 <version>${javalite.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>ch.qos.logback</groupId>
+                <artifactId>logback-classic</artifactId>
+                <version>${logback.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>ch.qos.logback</groupId>
+                <artifactId>logback-core</artifactId>
+                <version>${logback.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.liquibase</groupId>

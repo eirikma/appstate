@@ -7,6 +7,9 @@ Maven multi-module project.
 ```
 appstate/                  (parent pom)
 └── appstate-core/         (core module)
+└── tests-common/          (test utilities)
+└── business-day-calendar/ (business day calendar module)
+└── business-day-calendar-integration-tests/ (integration tests for business day calendar)
 ```
 
 ## Tech Stack
