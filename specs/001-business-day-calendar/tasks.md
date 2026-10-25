@@ -29,11 +29,11 @@ independent implementation and testing of each story.
 **Purpose**: Create Maven modules, configure dependencies, set up
 database schema and integration test infrastructure.
 
-- [ ] T001 Create business-day-calendar Maven module with pom.xml and directory structure at business-day-calendar/pom.xml
-- [ ] T002 [P] Create tests-common Maven module with pom.xml at tests-common/pom.xml (depends on Testcontainers, Liquibase, PostgreSQL driver, JUnit 6)
-- [ ] T003 [P] Create business-day-calendar-integration-tests Maven module with pom.xml at business-day-calendar-integration-tests/pom.xml (depends on business-day-calendar and tests-common)
-- [ ] T004 Update parent pom.xml with three new modules and dependency management for Spring Boot, Liquibase, JDBC, Testcontainers, and PostgreSQL driver
-- [ ] T005 Create Liquibase changeLogs: business-day-calendar/src/main/resources/db/changelog/db.changelog-master.xml and changes/001-create-calendar-tables.xml (calendar_date and calendar_date_tag tables per data-model.md schema)
+- [x] T001 Create business-day-calendar Maven module with pom.xml and directory structure at business-day-calendar/pom.xml
+- [x] T002 [P] Create tests-common Maven module with pom.xml at tests-common/pom.xml (depends on Testcontainers, Liquibase, PostgreSQL driver, JUnit 6)
+- [x] T003 [P] Create business-day-calendar-integration-tests Maven module with pom.xml at business-day-calendar-integration-tests/pom.xml (depends on business-day-calendar and tests-common)
+- [x] T004 Update parent pom.xml with three new modules and dependency management for Spring Boot, Liquibase, JDBC, Testcontainers, and PostgreSQL driver
+- [x] T005 Create Liquibase changeLogs: business-day-calendar/src/main/resources/db/changelog/db.changelog-master.xml and changes/001-create-calendar-tables.xml (calendar_date and calendar_date_tag tables per data-model.md schema)
 
 ---
 
@@ -44,12 +44,12 @@ These are interfaces and records with no behaviour - no TDD needed.
 
 **CRITICAL**: No user story work can begin until this phase is complete.
 
-- [ ] T006 [P] Create CalendarDate record in business-day-calendar/src/main/java/.../model/CalendarDate.java (fields: LocalDate date, Map<String, Set<String>> tagsByTagSet)
-- [ ] T007 [P] Create TaggingService interface in business-day-calendar/src/main/java/.../tagging/TaggingService.java (methods: tagSet(), dependencies(), tag(YearMonth, Map) per contracts/api-contracts.md)
-- [ ] T008 [P] Create CalendarRepository interface in business-day-calendar/src/main/java/.../repository/CalendarRepository.java (methods: deleteMonth, saveDates, saveTags, findDatesByRange, findDatesByTagSetInRange per contracts/api-contracts.md)
-- [ ] T009 [P] Create CalendarQuery interface in business-day-calendar/src/main/java/.../service/CalendarQuery.java (methods: findByDateRange, findByTagSetInRange per contracts/api-contracts.md)
-- [ ] T010 [P] Create CalendarLiquibaseCustomizer Spring bean in business-day-calendar/src/main/java/.../spring/CalendarLiquibaseCustomizer.java (exports module's db.changelog-master.xml)
-- [ ] T011 Implement IntegrationTestBase in tests-common/src/main/java/.../test/IntegrationTestBase.java (PostgreSQL 17 testcontainer startup, Liquibase changeLog execution, DataSource provisioning)
+- [x] T006 [P] Create CalendarDate record in business-day-calendar/src/main/java/.../model/CalendarDate.java (fields: LocalDate date, Map<String, Set<String>> tagsByTagSet)
+- [x] T007 [P] Create TaggingService interface in business-day-calendar/src/main/java/.../tagging/TaggingService.java (methods: tagSet(), dependencies(), tag(YearMonth, Map) per contracts/api-contracts.md)
+- [x] T008 [P] Create CalendarRepository interface in business-day-calendar/src/main/java/.../repository/CalendarRepository.java (methods: deleteMonth, saveDates, saveTags, findDatesByRange, findDatesByTagSetInRange per contracts/api-contracts.md)
+- [x] T009 [P] Create CalendarQuery interface in business-day-calendar/src/main/java/.../service/CalendarQuery.java (methods: findByDateRange, findByTagSetInRange per contracts/api-contracts.md)
+- [x] T010 [P] Create CalendarLiquibaseCustomizer Spring bean in business-day-calendar/src/main/java/.../spring/CalendarLiquibaseCustomizer.java (exports module's db.changelog-master.xml)
+- [x] T011 Implement IntegrationTestBase in tests-common/src/main/java/.../test/IntegrationTestBase.java (PostgreSQL 17 testcontainer startup, Liquibase changeLog execution, DataSource provisioning)
 
 **Checkpoint**: Foundation ready - all interfaces defined, integration test infrastructure operational.
 
@@ -66,15 +66,15 @@ ChristianHoliday, and NorwegianRedDay, applied in dependency order.
 
 ### Implementation for User Story 1
 
-- [ ] T012 [P] [US1] Create WeekdayType enum in business-day-calendar/src/main/java/.../model/WeekdayType.java (values: WORKDAY, WEEKEND) and implement WeekdayTypeTagger in business-day-calendar/src/main/java/.../tagging/WeekdayTypeTagger.java (TDD: verify WORKDAY for Mon-Fri, WEEKEND for Sat-Sun in a known month)
-- [ ] T013 [P] [US1] Create TagSetRegistry interface in business-day-calendar/src/main/java/.../registry/TagSetRegistry.java and implement DefaultTagSetRegistry in business-day-calendar/src/main/java/.../registry/DefaultTagSetRegistry.java with Kahn's algorithm for topological sort (TDD: register single service returns it in resolution order; register two services with dependency returns correct order)
-- [ ] T014 [P] [US1] Implement Computus (Easter date computation) as a pure static method in business-day-calendar/src/main/java/.../tagging/Computus.java (TDD: verify 2024→Mar 31, 2025→Apr 20, 2026→Apr 5, 2027→Mar 28, 2028→Apr 16; edge cases 1818→Mar 22, 1886→Apr 25, 1981→Apr 19, 1954→Apr 18; use Math.floorMod per research.md)
-- [ ] T015 [US1] Implement CalendarPopulator in business-day-calendar/src/main/java/.../service/CalendarPopulator.java (TDD: given a WeekdayTypeTagger and in-memory repository stub, populate a month and verify 28-31 CalendarDate entries created with correct tags; depends on T012, T013)
-- [ ] T016 [US1] Create ChristianHoliday enum in business-day-calendar/src/main/java/.../model/ChristianHoliday.java (10 values per data-model.md) and implement ChristianHolidayTagger in business-day-calendar/src/main/java/.../tagging/ChristianHolidayTagger.java (TDD: verify fixed holidays Jan 1, Dec 25, Dec 26 and movable holidays relative to Easter for April 2026; depends on T014)
-- [ ] T017 [US1] Create NorwegianRedDay enum in business-day-calendar/src/main/java/.../model/NorwegianRedDay.java (12 values per data-model.md) and implement NorwegianRedDayTagger in business-day-calendar/src/main/java/.../tagging/NorwegianRedDayTagger.java (TDD: verify 5 fixed red days and 7 movable red days by reading ChristianHoliday tags from existingTags parameter; depends on T016)
-- [ ] T018 [US1] Unit test: populate a month with all 3 tag-sets registered (WeekdayType, ChristianHoliday with dep on none, NorwegianRedDay with dep on ChristianHoliday) and verify topological execution order and tag visibility across dependencies in business-day-calendar/src/test/java/.../service/CalendarPopulatorTest.java (depends on T015, T016, T017)
-- [ ] T019 [US1] Implement JdbcCalendarRepository in business-day-calendar/src/main/java/.../repository/JdbcCalendarRepository.java (deleteMonth, saveDates, saveTags methods using JDBC PreparedStatement; depends on T006, T008)
-- [ ] T020 [US1] Integration test: populate April 2026 end-to-end with JdbcCalendarRepository and verify all 3 tag-sets persisted correctly (Easter Sunday Apr 5, Good Friday Apr 3, Maundy Thursday Apr 2 tagged as ChristianHoliday and NorwegianRedDay; weekdays tagged as WORKDAY/WEEKEND) in business-day-calendar-integration-tests/src/test/java/.../service/CalendarPopulatorIT.java (depends on T018, T019)
+- [x] T012 [P] [US1] Create WeekdayType enum in business-day-calendar/src/main/java/.../model/WeekdayType.java (values: WORKDAY, WEEKEND) and implement WeekdayTypeTagger in business-day-calendar/src/main/java/.../tagging/WeekdayTypeTagger.java (TDD: verify WORKDAY for Mon-Fri, WEEKEND for Sat-Sun in a known month)
+- [x] T013 [P] [US1] Create TagSetRegistry interface in business-day-calendar/src/main/java/.../registry/TagSetRegistry.java and implement DefaultTagSetRegistry in business-day-calendar/src/main/java/.../registry/DefaultTagSetRegistry.java with Kahn's algorithm for topological sort (TDD: register single service returns it in resolution order; register two services with dependency returns correct order)
+- [x] T014 [P] [US1] Implement Computus (Easter date computation) as a pure static method in business-day-calendar/src/main/java/.../tagging/Computus.java (TDD: verify 2024→Mar 31, 2025→Apr 20, 2026→Apr 5, 2027→Mar 28, 2028→Apr 16; edge cases 1818→Mar 22, 1886→Apr 25, 1981→Apr 19, 1954→Apr 18; use Math.floorMod per research.md)
+- [x] T015 [US1] Implement CalendarPopulator in business-day-calendar/src/main/java/.../service/CalendarPopulator.java (TDD: given a WeekdayTypeTagger and in-memory repository stub, populate a month and verify 28-31 CalendarDate entries created with correct tags; depends on T012, T013)
+- [x] T016 [US1] Create ChristianHoliday enum in business-day-calendar/src/main/java/.../model/ChristianHoliday.java (10 values per data-model.md) and implement ChristianHolidayTagger in business-day-calendar/src/main/java/.../tagging/ChristianHolidayTagger.java (TDD: verify fixed holidays Jan 1, Dec 25, Dec 26 and movable holidays relative to Easter for April 2026; depends on T014)
+- [x] T017 [US1] Create NorwegianRedDay enum in business-day-calendar/src/main/java/.../model/NorwegianRedDay.java (12 values per data-model.md) and implement NorwegianRedDayTagger in business-day-calendar/src/main/java/.../tagging/NorwegianRedDayTagger.java (TDD: verify 5 fixed red days and 7 movable red days by reading ChristianHoliday tags from existingTags parameter; depends on T016)
+- [x] T018 [US1] Unit test: populate a month with all 3 tag-sets registered (WeekdayType, ChristianHoliday with dep on none, NorwegianRedDay with dep on ChristianHoliday) and verify topological execution order and tag visibility across dependencies in business-day-calendar/src/test/java/.../service/CalendarPopulatorTest.java (depends on T015, T016, T017)
+- [x] T019 [US1] Implement JdbcCalendarRepository in business-day-calendar/src/main/java/.../repository/JdbcCalendarRepository.java (deleteMonth, saveDates, saveTags methods using JDBC PreparedStatement; depends on T006, T008)
+- [x] T020 [US1] Integration test: populate April 2026 end-to-end with JdbcCalendarRepository and verify all 3 tag-sets persisted correctly (Easter Sunday Apr 5, Good Friday Apr 3, Maundy Thursday Apr 2 tagged as ChristianHoliday and NorwegianRedDay; weekdays tagged as WORKDAY/WEEKEND) in business-day-calendar-integration-tests/src/test/java/.../service/CalendarPopulatorIT.java (depends on T018, T019)
 
 **Checkpoint**: User Story 1 fully functional - month population with dependency-ordered tagging works end-to-end with persistence.
 
@@ -90,9 +90,9 @@ returned dates with all their tags in chronological order.
 
 ### Implementation for User Story 2
 
-- [ ] T021 [US2] Implement findDatesByRange in JdbcCalendarRepository in business-day-calendar/src/main/java/.../repository/JdbcCalendarRepository.java (TDD: query range within populated month returns dates with all tags; range spanning unpopulated month returns only populated dates; empty calendar returns empty list; results in chronological order)
-- [ ] T022 [US2] Implement DefaultCalendarQuery.findByDateRange in business-day-calendar/src/main/java/.../service/DefaultCalendarQuery.java (delegates to CalendarRepository.findDatesByRange; TDD: verify delegation and immutable result)
-- [ ] T023 [US2] Integration test: populate Jan and Mar 2026, query Jan 15 to Mar 15 and verify only Jan and Mar populated dates returned (Feb excluded) in business-day-calendar-integration-tests/src/test/java/.../service/CalendarQueryIT.java
+- [x] T021 [US2] Implement findDatesByRange in JdbcCalendarRepository in business-day-calendar/src/main/java/.../repository/JdbcCalendarRepository.java (TDD: query range within populated month returns dates with all tags; range spanning unpopulated month returns only populated dates; empty calendar returns empty list; results in chronological order)
+- [x] T022 [US2] Implement DefaultCalendarQuery.findByDateRange in business-day-calendar/src/main/java/.../service/DefaultCalendarQuery.java (delegates to CalendarRepository.findDatesByRange; TDD: verify delegation and immutable result)
+- [x] T023 [US2] Integration test: populate Jan and Mar 2026, query Jan 15 to Mar 15 and verify only Jan and Mar populated dates returned (Feb excluded) in business-day-calendar-integration-tests/src/test/java/.../service/CalendarQueryIT.java
 
 **Checkpoint**: User Stories 1 AND 2 both work independently - populate and query by date range.
 
@@ -109,9 +109,9 @@ NorwegianRedDay tags.
 
 ### Implementation for User Story 3
 
-- [ ] T024 [US3] Implement findDatesByTagSetInRange in JdbcCalendarRepository in business-day-calendar/src/main/java/.../repository/JdbcCalendarRepository.java (TDD: filter by tag_set column, return only matching tags; tag-set with no matches returns empty; results in chronological order)
-- [ ] T025 [US3] Implement DefaultCalendarQuery.findByTagSetInRange in business-day-calendar/src/main/java/.../service/DefaultCalendarQuery.java (delegates to CalendarRepository.findDatesByTagSetInRange; TDD: verify delegation and only requested tag-set's tags in result)
-- [ ] T026 [US3] Integration test: populate April 2026, query NorwegianRedDay tag-set and verify 4 red days returned (Skjærtorsdag, Langfredag, Første påskedag, Andre påskedag) with only NorwegianRedDay tags in business-day-calendar-integration-tests/src/test/java/.../service/CalendarQueryIT.java
+- [x] T024 [US3] Implement findDatesByTagSetInRange in JdbcCalendarRepository in business-day-calendar/src/main/java/.../repository/JdbcCalendarRepository.java (TDD: filter by tag_set column, return only matching tags; tag-set with no matches returns empty; results in chronological order)
+- [x] T025 [US3] Implement DefaultCalendarQuery.findByTagSetInRange in business-day-calendar/src/main/java/.../service/DefaultCalendarQuery.java (delegates to CalendarRepository.findDatesByTagSetInRange; TDD: verify delegation and only requested tag-set's tags in result)
+- [x] T026 [US3] Integration test: populate April 2026, query NorwegianRedDay tag-set and verify 4 red days returned (Skjærtorsdag, Langfredag, Første påskedag, Andre påskedag) with only NorwegianRedDay tags in business-day-calendar-integration-tests/src/test/java/.../service/CalendarQueryIT.java
 
 **Checkpoint**: All query stories work independently - unfiltered and tag-set-filtered queries.
 
@@ -128,9 +128,9 @@ WeekdayType tags.
 
 ### Implementation for User Story 4
 
-- [ ] T027 [US4] Add missing-dependency validation to DefaultTagSetRegistry.register() in business-day-calendar/src/main/java/.../registry/DefaultTagSetRegistry.java (TDD: register service declaring dependency on unregistered tag-set throws exception with message naming the missing tag-set)
-- [ ] T028 [US4] Add circular-dependency detection to DefaultTagSetRegistry.register() in business-day-calendar/src/main/java/.../registry/DefaultTagSetRegistry.java (TDD: register A depends on B, then B depends on A throws exception naming both tag-sets in cycle; three-way cycle A→B→C→A also detected)
-- [ ] T029 [US4] Integration test: register a custom test tag-set depending on WeekdayType, populate a month, verify custom tags applied after WeekdayType in business-day-calendar-integration-tests/src/test/java/.../registry/CustomTagSetIT.java
+- [x] T027 [US4] Add missing-dependency validation to DefaultTagSetRegistry.register() in business-day-calendar/src/main/java/.../registry/DefaultTagSetRegistry.java (TDD: register service declaring dependency on unregistered tag-set throws exception with message naming the missing tag-set)
+- [x] T028 [US4] Add circular-dependency detection to DefaultTagSetRegistry.register() in business-day-calendar/src/main/java/.../registry/DefaultTagSetRegistry.java (TDD: register A depends on B, then B depends on A throws exception naming both tag-sets in cycle; three-way cycle A→B→C→A also detected)
+- [x] T029 [US4] Integration test: register a custom test tag-set depending on WeekdayType, populate a month, verify custom tags applied after WeekdayType in business-day-calendar-integration-tests/src/test/java/.../registry/CustomTagSetIT.java
 
 **Checkpoint**: All 4 user stories complete - full populate, query, and extensibility functionality.
 
@@ -140,9 +140,9 @@ WeekdayType tags.
 
 **Purpose**: Edge cases, documentation, and validation across stories.
 
-- [ ] T030 [P] Integration test: re-populate an already-populated month and verify all tags replaced (FR-010) in business-day-calendar-integration-tests/src/test/java/.../service/CalendarPopulatorIT.java
-- [ ] T031 Run quickstart.md validation against implemented code in specs/001-business-day-calendar/quickstart.md
-- [ ] T032 Add Javadoc to public API interfaces and records (TaggingService, CalendarRepository, CalendarQuery, CalendarPopulator, CalendarDate, TagSetRegistry) stating single responsibility per constitution
+- [x] T030 [P] Integration test: re-populate an already-populated month and verify all tags replaced (FR-010) in business-day-calendar-integration-tests/src/test/java/.../service/CalendarPopulatorIT.java
+- [x] T031 Run quickstart.md validation against implemented code in specs/001-business-day-calendar/quickstart.md
+- [x] T032 Add Javadoc to public API interfaces and records (TaggingService, CalendarRepository, CalendarQuery, CalendarPopulator, CalendarDate, TagSetRegistry) stating single responsibility per constitution
 
 ---
 
