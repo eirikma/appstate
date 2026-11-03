@@ -6,20 +6,23 @@ import liquibase.database.jvm.JdbcConnection;
 import liquibase.resource.ClassLoaderResourceAccessor;
 import org.junit.jupiter.api.BeforeAll;
 import org.testcontainers.containers.PostgreSQLContainer;
+import org.testcontainers.utility.DockerImageName;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
 
 /**
- * Base class for integration tests providing a PostgreSQL testcontainer and Liquibase schema setup.
+ * Base class for integration tests providing a TimescaleDB testcontainer and Liquibase schema setup.
  */
 public abstract class IntegrationTestBase {
 
     private static final PostgreSQLContainer<?> POSTGRES =
-            new PostgreSQLContainer<>("postgres:17")
+            new PostgreSQLContainer<>(DockerImageName.parse("timescale/timescaledb:2.31.0-pg18")
+                    .asCompatibleSubstituteFor("postgres"))
                     .withDatabaseName("appstate_test")
                     .withUsername("test")
-                    .withPassword("test");
+                    .withPassword("test")
+                    .withEnv("TIMESCALEDB_TELEMETRY", "off");
 
     private static DataSource dataSource;
 

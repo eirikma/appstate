@@ -46,7 +46,7 @@ Module poms declare dependencies without version numbers.
 ## Active Technologies
 - Java 25 + Spring Boot + Liquibase + JDBC (001-business-day-calendar)
 - PostgreSQL via repository abstraction (001-business-day-calendar)
-- Testcontainers PostgreSQL 17 (integration tests)
+- Testcontainers TimescaleDB 2.31.0 on PostgreSQL 18 (integration tests)
 
 ## Recent Changes
 - 001-business-day-calendar: Business day calendar module with tag-based date classification
